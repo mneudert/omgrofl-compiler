@@ -19,6 +19,7 @@ l[o]+l    { char *res = new char[strlen(yytext) + 1];
             strcpy(res, yytext);
             yylval.sval = res;
             return VARNAME; }
+stfu      { return STFU; }
 
 [0-9]+    { yylval.ival = atoi(yytext);
             return NUMBER; }

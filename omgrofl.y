@@ -17,25 +17,27 @@
     }
 %}
 
+%token ASSIGN
+%token ENDL
+%token STFU
+
 %union {
     char *sval;
     int ival;
 }
 
-%token ASSIGN
-%token ENDL
 %token <ival> NUMBER
 %token <sval> VARNAME
 
 %%
 
 omgrofl:
-    |
-    omgrofl command
+    | omgrofl command
     ;
 
 command:
-    VARNAME ASSIGN NUMBER ENDL { printf("Variable '%s' assigned to '%d'\n", $1, $3); }
+    STFU { return 0; }
+    | VARNAME ASSIGN NUMBER ENDL { printf("Variable '%s' assigned to '%d'\n", $1, $3); }
     ;
 
 %%
