@@ -10,17 +10,24 @@
 
 %option case-insensitive
 
+%x COMMENT
+
 %%
-[ \t]+    /* ignore whitespace */;
-\n        { return ENDL; }
+[ \t]+          /* ignore whitespace */;
+\n              { return ENDL; }
 
-iz        { return ASSIGN; }
-l[o]+l    { char *res = new char[strlen(yytext) + 1];
-            strcpy(res, yytext);
-            yylval.sval = res;
-            return VARNAME; }
-stfu      { return STFU; }
+iz              { return ASSIGN; }
+l[o]+l          { char *res = new char[strlen(yytext) + 1];
+                  strcpy(res, yytext);
+                  yylval.sval = res;
+                  return VARNAME; }
+[0-9]+          { yylval.ival = atoi(yytext);
+                  return NUMBER; }
 
-[0-9]+    { yylval.ival = atoi(yytext);
-            return NUMBER; }
+stfu            { return STFU; }
+
+w00t            { BEGIN(COMMENT); }
+<COMMENT>\n     { BEGIN(INITIAL); }
+<COMMENT>.      /* ignore comments */;
+
 %%
