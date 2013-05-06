@@ -1,0 +1,1 @@
+Interpreter for [Omgrofl](esolangs.org/wiki/omgrofl).
