@@ -1,28 +1,24 @@
 %{
-    #include <stdio.h>
+    #include <cstdio>
+    #include <iostream>
+    #include <map>
+    #include "omgrofl.tab.h"
 
-    void yyerror(const char *s)
-    {
-        fprintf(stderr, "error: %s\n", s);
-    }
+    extern "C" int yylex();
+    extern "C" FILE *yyin;
 
-    extern "C"
-    {
-        int yyparse(void);
-        int yylex(void);
-        int yywrap()
-        {
-            return 1;
-        }
-    }
+    void yyerror(const char *s);
+
+    static std::map<std::string, int> vars;
 %}
 
-%token ASSIGN
 %token ENDL
+%token IZ
+%token ROFL
 %token STFU
 
 %union {
-    char *sval;
+    std::string *sval;
     int ival;
 }
 
@@ -37,12 +33,18 @@ omgrofl:
 
 command:
     STFU { return 0; }
-    | VARNAME ASSIGN NUMBER ENDL { printf("Variable '%s' assigned to '%d'\n", $1, $3); }
+    | VARNAME IZ NUMBER ENDL { std::cout << "Variable '" << *$1 << "' assigned: " << $3 << std::endl;
+                               vars[*$1] = $3; }
+    | ROFL VARNAME ENDL { std::cout << "Variable '" << *$2 << "': " << vars[*$2] << std::endl; }
     ;
 
 %%
 
-main(int argc, char **argv)
-{
+main() {
     yyparse();
+}
+
+void yyerror(const char *s) {
+    std::cout << "Parse error! Message: " << s << std::endl;
+    exit(-1);
 }
