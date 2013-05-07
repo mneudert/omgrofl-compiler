@@ -33,9 +33,8 @@ omgrofl:
 
 command:
     STFU { return 0; }
-    | VARNAME IZ NUMBER ENDL { std::cout << "Variable '" << *$1 << "' assigned: " << $3 << std::endl;
-                               vars[*$1] = $3; }
-    | ROFL VARNAME ENDL { std::cout << "Variable '" << *$2 << "': " << vars[*$2] << std::endl; }
+    | VARNAME IZ NUMBER ENDL { vars[*$1] = $3; }
+    | ROFL VARNAME ENDL { std::cout << "> " << vars[*$2] << std::endl; }
     ;
 
 %%
