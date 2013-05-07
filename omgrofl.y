@@ -9,6 +9,7 @@
 
     void yyerror(const char *s);
 
+    static bool interactive = false;
     static std::map<std::string, char> vars;
 %}
 
@@ -37,13 +38,22 @@ command:
     STFU { return 0; }
     | VARIABLE IZ VALUE ENDL { vars[*$1] = $3; }
     | LMAO VARIABLE ENDL { vars[*$2]++; }
-    | ROFL VARIABLE ENDL { std::cout << "> " << vars[*$2] << std::endl; }
+    | ROFL VARIABLE ENDL { std::cout << (interactive ? "> " : "") << vars[*$2] << (interactive ? std::endl : ""); }
     | ROFLMAO VARIABLE ENDL { vars[*$2]--; }
     ;
 
 %%
 
-main() {
+main(int argc, char **argv) {
+    ++argv, --argc;  /* skip over program name */
+
+    if (0 < argc) {
+        yyin = fopen(argv[0], "r");
+    } else {
+        interactive = true;
+        yyin = stdin;
+    }
+
     yyparse();
 }
 
