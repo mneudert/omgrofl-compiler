@@ -14,7 +14,9 @@
 
 %token ENDL
 %token IZ
+%token LMAO
 %token ROFL
+%token ROFLMAO
 %token STFU
 
 %union {
@@ -34,7 +36,9 @@ omgrofl:
 command:
     STFU { return 0; }
     | VARIABLE IZ VALUE ENDL { vars[*$1] = $3; }
+    | LMAO VARIABLE ENDL { vars[*$2]++; }
     | ROFL VARIABLE ENDL { std::cout << "> " << vars[*$2] << std::endl; }
+    | ROFLMAO VARIABLE ENDL { vars[*$2]--; }
     ;
 
 %%

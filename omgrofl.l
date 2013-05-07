@@ -14,14 +14,16 @@
 [ \t]+          /* ignore whitespace */;
 \n              { return ENDL; }
 
-iz              { return IZ; }
 l[o]+l          { yylval.var = new std::string(yytext); return VARIABLE; }
 2[0-5][0-5]     { yylval.val = atoi(yytext); return VALUE; }
 1[0-9][0-9]     { yylval.val = atoi(yytext); return VALUE; }
 [1-9][0-9]      { yylval.val = atoi(yytext); return VALUE; }
 [0-9]           { yylval.val = atoi(yytext); return VALUE; }
-rofl            { return ROFL; }
 
+iz              { return IZ; }
+lmao            { return LMAO; }
+rofl            { return ROFL; }
+roflmao         { return ROFLMAO; }
 stfu            { return STFU; }
 
 w00t            { BEGIN(COMMENT); }
