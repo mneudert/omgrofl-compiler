@@ -1,10 +1,9 @@
 %{
     #include <cstdio>
     #include <iostream>
-    using namespace std;
-    #define YY_DECL extern "C" int yylex()
-
     #include "omgrofl.tab.h"
+
+    #define YY_DECL extern "C" int yylex()
 %}
 
 %option case-insensitive
@@ -16,8 +15,11 @@
 \n              { return ENDL; }
 
 iz              { return IZ; }
-l[o]+l          { yylval.sval = new std::string(yytext); return VARNAME; }
-[0-9]+          { yylval.ival = strtol(yytext, NULL, 10); return NUMBER; }
+l[o]+l          { yylval.var = new std::string(yytext); return VARIABLE; }
+2[0-5][0-5]     { yylval.val = atoi(yytext); return VALUE; }
+1[0-9][0-9]     { yylval.val = atoi(yytext); return VALUE; }
+[1-9][0-9]      { yylval.val = atoi(yytext); return VALUE; }
+[0-9]           { yylval.val = atoi(yytext); return VALUE; }
 rofl            { return ROFL; }
 
 stfu            { return STFU; }

@@ -9,7 +9,7 @@
 
     void yyerror(const char *s);
 
-    static std::map<std::string, int> vars;
+    static std::map<std::string, char> vars;
 %}
 
 %token ENDL
@@ -18,12 +18,12 @@
 %token STFU
 
 %union {
-    std::string *sval;
-    int ival;
+    std::string *var;
+    char val;
 }
 
-%token <ival> NUMBER
-%token <sval> VARNAME
+%token <val> VALUE
+%token <var> VARIABLE
 
 %%
 
@@ -33,8 +33,8 @@ omgrofl:
 
 command:
     STFU { return 0; }
-    | VARNAME IZ NUMBER ENDL { vars[*$1] = $3; }
-    | ROFL VARNAME ENDL { std::cout << "> " << vars[*$2] << std::endl; }
+    | VARIABLE IZ VALUE ENDL { vars[*$1] = $3; }
+    | ROFL VARIABLE ENDL { std::cout << "> " << vars[*$2] << std::endl; }
     ;
 
 %%
