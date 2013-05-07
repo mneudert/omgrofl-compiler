@@ -1,1 +1,1 @@
-Interpreter for [Omgrofl](esolangs.org/wiki/omgrofl).
+Compiler/Interpreter for [Omgrofl](http://esolangs.org/wiki/omgrofl).
