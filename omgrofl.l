@@ -11,8 +11,7 @@
 %x COMMENT
 
 %%
-[ \t]+          /* ignore whitespace */;
-\n              { return ENDL; }
+[ \t\n]+        /* ignore whitespace */;
 
 l[o]+l          { yylval.var = new std::string(yytext); return VARIABLE; }
 2[0-5][0-5]     { yylval.val = atoi(yytext); return VALUE; }

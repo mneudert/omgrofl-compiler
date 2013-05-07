@@ -13,7 +13,6 @@
     static std::map<std::string, char> vars;
 %}
 
-%token ENDL
 %token IZ
 %token LMAO
 %token ROFL
@@ -36,10 +35,10 @@ omgrofl:
 
 command:
     STFU { return 0; }
-    | VARIABLE IZ VALUE ENDL { vars[*$1] = $3; }
-    | LMAO VARIABLE ENDL { vars[*$2]++; }
-    | ROFL VARIABLE ENDL { std::cout << (interactive ? "> " : "") << vars[*$2] << (interactive ? std::endl : ""); }
-    | ROFLMAO VARIABLE ENDL { vars[*$2]--; }
+    | VARIABLE IZ VALUE { vars[*$1] = $3; }
+    | LMAO VARIABLE { vars[*$2]++; }
+    | ROFL VARIABLE { std::cout << (interactive ? "> " : "") << vars[*$2] << (interactive ? std::endl : ""); }
+    | ROFLMAO VARIABLE { vars[*$2]--; }
     ;
 
 %%
