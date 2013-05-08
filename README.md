@@ -8,6 +8,10 @@ Well, compile this little beast:
 
     make
 
+Installation to a folder of your choice is also possible (might require "root" privileges):
+
+    make DESTDIR=/usr install
+
 Quite difficult, wasn't it?
 
 ## Compiling Omgrofl
