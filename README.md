@@ -33,7 +33,8 @@ No need for any special extension, shebang, or anything like that...
 ### Supported statements
 
     // assigment to values
-    lool iz 6
+    lool iz 72
+    loool to /dev/null
 
     // comments
     w00t laughing at teh codez
@@ -50,9 +51,8 @@ No need for any special extension, shebang, or anything like that...
 
 ### Unsupported statements
 
-    // assignment to /dev/null or other variables
+    // assignment to other variables
     lool iz looool
-    loool iz /dev/null
 
     // conditions
     wtf lool iz liek loool

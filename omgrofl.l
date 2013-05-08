@@ -18,8 +18,9 @@ l[o]+l          { yylval.var = new std::string(yytext); return VARIABLE; }
 1[0-9][0-9]     { yylval.val = atoi(yytext); return VALUE; }
 [1-9][0-9]      { yylval.val = atoi(yytext); return VALUE; }
 [0-9]           { yylval.val = atoi(yytext); return VALUE; }
+\/dev\/null     { yylval.val = atoi(yytext); return VALUE; }
 
-iz              { return IZ; }
+(iz|to)         { return ASSIGN; }
 lmao            { return LMAO; }
 rofl            { return ROFL; }
 roflmao         { return ROFLMAO; }
