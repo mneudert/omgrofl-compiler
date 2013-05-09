@@ -30,13 +30,13 @@ Or you can run an already existing source file:
 
     ./omgrofl sourcefile.omgrofl
 
-No need for any special extension, shebang, or anything like that...
+No need for special extensions, a shebang, or anything like that...
+
+Shebangs are supported by the way! Any line matching the pattern *#!/.+/omgrofl* is ignored from parsing. So as long as you have installed it under the name "omgrofl" you are ready to go!
 
 ## Language Support
 
-At the moment a "line ending" (\n) is completely optional. Actually multiple commands on one line will get parsed quite fine.
-
-This will change sometimes to be conform with the official "language specification". That is, one command per line and rest ignored.
+At the moment a "line ending" (\n) is completely optional. Actually multiple commands on one line will get parsed quite fine. This will change sometimes to be conform with the official "language specification". That is, one command per line and rest ignored.
 
 For the lulz you could write a complete "Hello, World!" in a single line. Do it while you can \o/
 

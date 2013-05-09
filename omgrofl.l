@@ -11,6 +11,7 @@
 %x COMMENT
 
 %%
+#!\/.+\/omgrofl /* ignore shebang */;
 [ \t\n]+        /* ignore whitespace */;
 
 l[o]+l          { yylval.var = new std::string(yytext); return VARIABLE; }
