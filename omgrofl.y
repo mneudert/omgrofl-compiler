@@ -11,6 +11,10 @@
 
     static bool interactive = false;
     static std::map<std::string, char> vars;
+
+    void prompt() {
+        if (interactive) { std::cout << "> "; }
+    }
 %}
 
 %token ASSIGN
@@ -35,12 +39,13 @@ omgrofl:
 
 command:
     STFU { return 0; }
-    | VARIABLE ASSIGN VALUE { vars[*$1] = $3; }
-    | LMAO VARIABLE { vars[*$2]++; }
+    | VARIABLE ASSIGN VALUE { vars[*$1] = $3; prompt(); }
+    | LMAO VARIABLE { vars[*$2]++; prompt(); }
     | ROFL VARIABLE { interactive
-                      ? std::cout << "> " << vars[*$2] << std::endl
-                      : std::cout << vars[*$2]; }
-    | ROFLMAO VARIABLE { vars[*$2]--; }
+                        ? std::cout << vars[*$2] << std::endl
+                        : std::cout << vars[*$2];
+                      prompt(); }
+    | ROFLMAO VARIABLE { vars[*$2]--; prompt(); }
     ;
 
 %%
@@ -55,6 +60,7 @@ main(int argc, char **argv) {
         yyin = stdin;
     }
 
+    prompt();
     yyparse();
 }
 
