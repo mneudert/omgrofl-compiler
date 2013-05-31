@@ -12,7 +12,8 @@
 
 %%
 #!\/.+\/omgrofl /* ignore shebang */;
-[ \t\n]+        /* ignore whitespace */;
+[ \t]+          /* ignore whitespace */;
+\n              { return ENDL; }
 
 l[o]+l          { yylval.var = new std::string(yytext); return VARIABLE; }
 2[0-5][0-5]     { yylval.val = atoi(yytext); return VALUE; }
@@ -31,4 +32,5 @@ w00t            { BEGIN(COMMENT); }
 <COMMENT>\n     { BEGIN(INITIAL); }
 <COMMENT>.      /* ignore comments */;
 
+.               /* hide everything -> yyerror() */;
 %%

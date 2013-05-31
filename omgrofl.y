@@ -18,6 +18,7 @@
 %}
 
 %token ASSIGN
+%token ENDL
 %token LMAO
 %token ROFL
 %token ROFLMAO
@@ -34,18 +35,19 @@
 %%
 
 omgrofl:
-    | omgrofl command
+    | command omgrofl
     ;
 
 command:
-    STFU { return 0; }
-    | VARIABLE ASSIGN VALUE { vars[*$1] = $3; prompt(); }
-    | LMAO VARIABLE { vars[*$2]++; prompt(); }
-    | ROFL VARIABLE { interactive
-                        ? std::cout << vars[*$2] << std::endl
-                        : std::cout << vars[*$2];
-                      prompt(); }
-    | ROFLMAO VARIABLE { vars[*$2]--; prompt(); }
+    error { yyclearin; yyerrok; }
+    | STFU { return 0; }
+    | VARIABLE ASSIGN VALUE ENDL { vars[*$1] = $3; prompt(); }
+    | LMAO VARIABLE ENDL { vars[*$2]++; prompt(); }
+    | ROFL VARIABLE ENDL { interactive
+                             ? std::cout << vars[*$2] << std::endl
+                             : std::cout << vars[*$2];
+                           prompt(); }
+    | ROFLMAO VARIABLE ENDL { vars[*$2]--; prompt(); }
     ;
 
 %%
@@ -64,7 +66,13 @@ main(int argc, char **argv) {
     yyparse();
 }
 
+/**
+ * Catches "single" errors.
+ *
+ * Details: @see http://publib.boulder.ibm.com/infocenter/zvm/v5r4/index.jsp?topic=/com.ibm.zvm.v54.dmsp4/hcsp4b10106.htm
+ */
 void yyerror(const char *s) {
-    std::cout << "Parse error! Message: " << s << std::endl;
-    exit(-1);
+    std::cerr << "Parse error: " << s << std::endl;
+
+    interactive ? prompt() : exit(1);
 }
