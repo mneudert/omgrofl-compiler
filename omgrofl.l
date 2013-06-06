@@ -4,6 +4,8 @@
     #include "omgrofl.tab.h"
 
     #define YY_DECL extern "C" int yylex()
+
+    int lineno = 1;
 %}
 
 %option case-insensitive
@@ -13,7 +15,7 @@
 %%
 #!\/.+\/omgrofl /* ignore shebang */;
 [ \t]+          /* ignore whitespace */;
-\n              { return ENDL; }
+\n              { lineno++; return ENDL; }
 
 l[o]+l          { yylval.var = new std::string(yytext); return VARIABLE; }
 2[0-5][0-5]     { yylval.val = atoi(yytext); return VALUE; }

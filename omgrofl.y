@@ -7,6 +7,8 @@
     extern "C" int yylex();
     extern "C" FILE *yyin;
 
+    extern int lineno;
+
     void yyerror(const char *s);
 
     static bool interactive = false;
@@ -39,7 +41,7 @@ omgrofl:
     ;
 
 command:
-    error { yyclearin; yyerrok; }
+    error ENDL { yyerrok; }
     | STFU { return 0; }
     | VARIABLE ASSIGN VALUE ENDL { vars[*$1] = $3; prompt(); }
     | LMAO VARIABLE ENDL { vars[*$2]++; prompt(); }
@@ -72,7 +74,9 @@ main(int argc, char **argv) {
  * Details: @see http://publib.boulder.ibm.com/infocenter/zvm/v5r4/index.jsp?topic=/com.ibm.zvm.v54.dmsp4/hcsp4b10106.htm
  */
 void yyerror(const char *s) {
-    std::cerr << "Parse error: " << s << std::endl;
+    interactive
+        ? std::cerr << "Parse error: '" << s << "'" << std::endl
+        : std::cerr << "Parse error: '" << s << "' in line " << lineno << std::endl;
 
     interactive ? prompt() : exit(1);
 }
