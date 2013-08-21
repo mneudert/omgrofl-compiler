@@ -38,6 +38,8 @@ Shebangs are supported by the way! Any line matching the pattern *#!/.+/omgrofl*
 
 ### Supported statements
 
+Every statement has to be on a line of its own ("\n"). Only the linebreak after a termination command ("stfu") can be omitted.
+
     // assigment to values
     lool iz 72
     loool to /dev/null
