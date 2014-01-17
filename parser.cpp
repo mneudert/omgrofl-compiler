@@ -1,6 +1,6 @@
 #include "parser.hpp"
 
-static std::map<std::string, int> Variables;
+static std::map<std::string, unsigned char> Variables;
 
 static int CurTok;
 int getNextToken() {
@@ -18,8 +18,8 @@ static ExprAST *ParseExpression();
 /// assignment
 ///   ::= variable assignment numeric
 static ExprAST *ParseAssignment() {
-  std::string VarName  = lastIdentifier();
-  int         VarValue = -1;
+  std::string VarName    = lastIdentifier();
+  unsigned char VarValue = -1;
 
   getNextToken();
 
@@ -35,12 +35,8 @@ static ExprAST *ParseAssignment() {
     VarValue = lastValue();
   }
 
-  if (0 > VarValue) {
-    return Error("Missing value after assignment token");
-  }
-
   if (Variables[VarName]) {
-    fprintf(stdout, "OldVal '%s': %d\n", VarName.c_str(), Variables[VarName]);
+    fprintf(stdout, "OldVal '%s': %s\n", VarName.c_str(), &Variables[VarName]);
   }
 
   Variables[VarName] = VarValue;
@@ -50,7 +46,6 @@ static ExprAST *ParseAssignment() {
 
 /// identifierexpr
 ///   ::= identifier
-///   ::= identifier '(' expression* ')'
 static ExprAST *ParseIdentifierExpr() {
   fprintf(stderr, "Identifier: %s\n", lastIdentifier().c_str());
 
@@ -66,11 +61,39 @@ static ExprAST *ParseExpression() {
   }
 }
 
+/// outputexpr
+///   ::= output variable
+static ExprAST *ParseOutput() {
+  std::string VarName;
+
+  getNextToken();
+
+  if (tok_variable != CurTok) {
+    return Error("Missing variable name for output");
+  }
+
+  VarName = lastIdentifier();
+
+  if (!Variables[VarName]) {
+    return Error("Unknown variable");
+  }
+
+  fprintf(stdout, "%s\n", &Variables[VarName]);
+
+  return 0;
+}
+
 
 static void HandleAssignment() {
   if (ParseAssignment()) {
     fprintf(stderr, "Variable assigned!\n");
   } else {
+    getNextToken();
+  }
+}
+
+static void HandleOutput() {
+  if (!ParseOutput()) {
     getNextToken();
   }
 }
@@ -104,6 +127,10 @@ void MainLoop() {
       case tok_eof:
         fprintf(stdout, "OmgEndOfFile!\n");
         return;
+
+      case tok_output:
+        HandleOutput();
+        break;
 
       case tok_variable:
         HandleAssignment();

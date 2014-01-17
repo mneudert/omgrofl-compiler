@@ -1,7 +1,7 @@
 #include "lexer.hpp"
 
 static std::string IdentifierStr;
-static int NumVal;
+static unsigned char NumVal;
 static std::map<std::string, Token> IdentifierMap;
 
 int gettok() {
@@ -75,15 +75,22 @@ int gettok() {
 }
 
 std::string lastIdentifier() {
-  return IdentifierStr;
+  std::string ident = IdentifierStr;
+  IdentifierStr     = "";
+
+  return ident;
 }
 
-int lastValue() {
-  return NumVal;
+unsigned char lastValue() {
+  char value = NumVal;
+  NumVal     = -1;
+
+  return value;
 }
 
 void initIdentifiers() {
   IdentifierMap["iz"]   = tok_assign;
+  IdentifierMap["rofl"] = tok_output;
   IdentifierMap["stfu"] = tok_eof;
   IdentifierMap["to"]   = tok_assign;
   IdentifierMap["w00t"] = tok_comment;

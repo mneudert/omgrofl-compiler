@@ -15,12 +15,13 @@ enum Token {
   tok_comment    = -4,
   tok_identifier = -5,
   tok_numeric    = -6,
-  tok_variable   = -7
+  tok_output     = -7,
+  tok_variable   = -8
 };
 
 int gettok();
 std::string lastIdentifier();
-int lastValue();
+unsigned char lastValue();
 
 void initIdentifiers();
 
