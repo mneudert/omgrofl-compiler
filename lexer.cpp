@@ -1,10 +1,12 @@
 #include "lexer.hpp"
 
 static std::string IdentifierStr;
+static int NumVal;
 static std::map<std::string, Token> IdentifierMap;
 
 int gettok() {
   static int LastChar = ' ';
+  bool isVariable     = false;
 
   if (IdentifierMap.empty()) {
     initIdentifiers();
@@ -16,11 +18,23 @@ int gettok() {
   }
 
   // get command / identifier
-  if (isalnum(LastChar)) {
+  if (isalpha(LastChar) || '/' == LastChar) {
     IdentifierStr = LastChar;
 
-    while (isalnum((LastChar = getchar()))) {
+    if ('l' == LastChar) {
+      isVariable = true;
+    }
+
+    while (isalnum((LastChar = getchar())) || '/' == LastChar) {
+      if ('l' != LastChar && 'o' != LastChar && 'O' != LastChar) {
+        isVariable = false;
+      }
+
       IdentifierStr += LastChar;
+    }
+
+    if (isVariable && 'l' == IdentifierStr[IdentifierStr.length() - 1] && 3 >= IdentifierStr.length()) {
+      return tok_variable;
     }
 
     if (IdentifierMap[IdentifierStr]) {
@@ -28,6 +42,20 @@ int gettok() {
     }
 
     return tok_identifier;
+  }
+
+  // get numeric values
+  if (isdigit(LastChar)) {
+    std::string NumStr;
+
+    do {
+      NumStr  += LastChar;
+      LastChar = getchar();
+    } while (isdigit(LastChar));
+
+    NumVal = std::atoi(NumStr.c_str());
+
+    return tok_numeric;
   }
 
   // catch end-of-file
@@ -50,7 +78,13 @@ std::string lastIdentifier() {
   return IdentifierStr;
 }
 
+int lastValue() {
+  return NumVal;
+}
+
 void initIdentifiers() {
+  IdentifierMap["iz"]   = tok_assign;
   IdentifierMap["stfu"] = tok_eof;
+  IdentifierMap["to"]   = tok_assign;
   IdentifierMap["w00t"] = tok_comment;
 }
