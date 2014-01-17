@@ -1,12 +1,17 @@
 #include "lexer.hpp"
 
 static std::string IdentifierStr;
+static std::map<std::string, Token> IdentifierMap;
 
 int gettok() {
   static int LastChar = ' ';
 
+  if (IdentifierMap.empty()) {
+    initIdentifiers();
+  }
+
   // skip whitespace
-  while (isspace(LastChar)) {
+  while (isspace(LastChar) && '\n' != LastChar) {
     LastChar = getchar();
   }
 
@@ -18,16 +23,21 @@ int gettok() {
       IdentifierStr += LastChar;
     }
 
-    if (IdentifierStr == "stfu") {
-      return tok_eof;
+    if (IdentifierMap[IdentifierStr]) {
+      return IdentifierMap[IdentifierStr];
     }
 
     return tok_identifier;
   }
 
   // catch end-of-file
-  if (LastChar == EOF) {
+  if (EOF == LastChar) {
     return tok_eof;
+  }
+
+  if ('\n' == LastChar) {
+    LastChar = ' ';
+    return tok_eol;
   }
 
   int ThisChar = LastChar;
@@ -38,4 +48,9 @@ int gettok() {
 
 std::string lastIdentifier() {
   return IdentifierStr;
+}
+
+void initIdentifiers() {
+  IdentifierMap["stfu"] = tok_eof;
+  IdentifierMap["w00t"] = tok_comment;
 }

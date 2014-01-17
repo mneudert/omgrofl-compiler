@@ -5,11 +5,10 @@ int getNextToken() {
   return CurTok = gettok();
 }
 
-static int GetTokPrecedence() {
-  return -1;
+ExprAST *Error(const char *Str) {
+  fprintf(stderr, "Error: %s\n", Str);
+  return 0;
 }
-
-ExprAST *Error(const char *Str) { fprintf(stderr, "Error: %s\n", Str); return 0;}
 
 static ExprAST *ParseExpression();
 
@@ -42,11 +41,27 @@ static void HandleTopLevelExpression() {
 /// top ::= definition | external | expression | ';'
 void MainLoop() {
   while (1) {
-    fprintf(stdout, ">> ");
+    if (tok_eol == CurTok) {
+      fprintf(stdout, ">> ");
+    }
 
     switch (CurTok) {
-      case tok_eof: fprintf(stdout, "Omgendoffile!\n"); return;
-      default:      HandleTopLevelExpression(); break;
+      case tok_eol:
+        getNextToken();
+        break;
+
+      case tok_comment:
+        // ignore comments
+        while (tok_eol != CurTok) { getNextToken(); }
+        break;
+
+      case tok_eof:
+        fprintf(stdout, "Omgendoffile!\n");
+        return;
+
+      default:
+        HandleTopLevelExpression();
+        break;
     }
   }
 }
