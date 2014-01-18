@@ -15,6 +15,33 @@ ExprAST *Error(const char *Str) {
 static ExprAST *ParseExpression();
 
 
+/// arithmetic
+///   ::= increment variable
+///   ::= decrement variable
+static ExprAST *ParseArithmetic() {
+  int         ArithOp = CurTok;
+  std::string VarName;
+
+  getNextToken();
+
+  if (tok_variable != CurTok) {
+    return Error("Missing variable name for arithmetic");
+  }
+
+  VarName = lastIdentifier();
+
+  if (!Variables[VarName]) {
+    return Error("Unknown variable");
+  }
+
+  switch(ArithOp) {
+    case tok_decrement: Variables[VarName]--; break;
+    case tok_increment: Variables[VarName]++; break;
+  }
+
+  return 0;
+}
+
 /// assignment
 ///   ::= variable assignment numeric
 static ExprAST *ParseAssignment() {
@@ -84,6 +111,12 @@ static ExprAST *ParseOutput() {
 }
 
 
+static void HandleArithmetic() {
+  if (!ParseArithmetic()) {
+    getNextToken();
+  }
+}
+
 static void HandleAssignment() {
   if (ParseAssignment()) {
     fprintf(stderr, "Variable assigned!\n");
@@ -127,6 +160,11 @@ void MainLoop() {
       case tok_eof:
         fprintf(stdout, "OmgEndOfFile!\n");
         return;
+
+      case tok_increment:
+      case tok_decrement:
+        HandleArithmetic();
+        break;
 
       case tok_output:
         HandleOutput();

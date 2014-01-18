@@ -89,9 +89,11 @@ unsigned char lastValue() {
 }
 
 void initIdentifiers() {
-  IdentifierMap["iz"]   = tok_assign;
-  IdentifierMap["rofl"] = tok_output;
-  IdentifierMap["stfu"] = tok_eof;
-  IdentifierMap["to"]   = tok_assign;
-  IdentifierMap["w00t"] = tok_comment;
+  IdentifierMap["iz"]      = tok_assign;
+  IdentifierMap["lmao"]    = tok_increment;
+  IdentifierMap["rofl"]    = tok_output;
+  IdentifierMap["roflmao"] = tok_decrement;
+  IdentifierMap["stfu"]    = tok_eof;
+  IdentifierMap["to"]      = tok_assign;
+  IdentifierMap["w00t"]    = tok_comment;
 }

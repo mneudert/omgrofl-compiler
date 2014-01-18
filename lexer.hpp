@@ -11,12 +11,16 @@
 enum Token {
   tok_eof        = -1,
   tok_eol        = -2,
+
   tok_assign     = -3,
   tok_comment    = -4,
   tok_identifier = -5,
   tok_numeric    = -6,
-  tok_output     = -7,
-  tok_variable   = -8
+  tok_variable   = -7,
+
+  tok_decrement  = -8,
+  tok_increment  = -9,
+  tok_output     = -10
 };
 
 int gettok();
