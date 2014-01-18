@@ -63,7 +63,7 @@ static ExprAST *ParseAssignment() {
   }
 
   if (Variables[VarName]) {
-    fprintf(stdout, "OldVal '%s': %s\n", VarName.c_str(), &Variables[VarName]);
+    log("OldVal '%s': %s\n", VarName.c_str(), &Variables[VarName]);
   }
 
   Variables[VarName] = VarValue;
@@ -74,7 +74,7 @@ static ExprAST *ParseAssignment() {
 /// identifierexpr
 ///   ::= identifier
 static ExprAST *ParseIdentifierExpr() {
-  fprintf(stderr, "Identifier: %s\n", lastIdentifier().c_str());
+  log("Identifier: %s\n", lastIdentifier().c_str());
 
   return 0;
 }
@@ -118,9 +118,7 @@ static void HandleArithmetic() {
 }
 
 static void HandleAssignment() {
-  if (ParseAssignment()) {
-    fprintf(stderr, "Variable assigned!\n");
-  } else {
+  if (!ParseAssignment()) {
     getNextToken();
   }
 }
@@ -132,9 +130,7 @@ static void HandleOutput() {
 }
 
 static void HandleTopLevelExpression() {
-  if (ParseExpression()) {
-    fprintf(stderr, "Parsed a top-level expr!\n");
-  } else {
+  if (!ParseExpression()) {
     getNextToken();
   }
 }
@@ -158,7 +154,7 @@ void MainLoop() {
         break;
 
       case tok_eof:
-        fprintf(stdout, "OmgEndOfFile!\n");
+        log("OmgEndOfFile!\n");
         return;
 
       case tok_increment:
