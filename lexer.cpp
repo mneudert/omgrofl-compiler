@@ -17,6 +17,26 @@ int gettok() {
     LastChar = getchar();
   }
 
+  // ignore possible shebang lines
+  if ('#' == LastChar) {
+    std::string BangStr;
+
+    do {
+      BangStr += LastChar;
+      LastChar = getchar();
+    } while (!isspace(LastChar));
+
+    if ((10 > BangStr.size()) ||
+        (0 != BangStr.compare(0, 3, std::string("#!/"))) ||
+        (0 != BangStr.compare(BangStr.size() - 7, 7, std::string("omgrofl"))))
+    {
+      IdentifierStr = BangStr;
+      return tok_identifier;
+    }
+
+    return tok_comment;
+  }
+
   // get command / identifier
   if (isalpha(LastChar) || '/' == LastChar) {
     IdentifierStr = LastChar;
