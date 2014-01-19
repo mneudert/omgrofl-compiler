@@ -105,7 +105,7 @@ static ExprAST *ParseOutput() {
     return Error("Unknown variable");
   }
 
-  fprintf(stdout, "%s\n", &Variables[VarName]);
+  fprintf(stdout, "%s", &Variables[VarName]);
 
   return 0;
 }
@@ -140,7 +140,7 @@ static void HandleTopLevelExpression() {
 void MainLoop() {
   while (1) {
     if (tok_eol == CurTok) {
-      fprintf(stdout, ">> ");
+      fprintf(stdout, "\n>> ");
     }
 
     switch (CurTok) {
