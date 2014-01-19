@@ -1,4 +1,13 @@
+CPP = clang++
+INSTALL = install
+
+.PHONY: all
+
 all:
-	clang++ -o omgrofl -g -O3 *.cpp
+	$(CPP) -o omgrofl -g -O3 *.cpp
+
 clean:
 	rm -f omgrofl
+
+install:
+	test ! -f omgrofl || $(INSTALL) -m 0755 omgrofl $(PREFIX)/bin
