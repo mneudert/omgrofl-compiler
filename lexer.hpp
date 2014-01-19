@@ -23,6 +23,9 @@ enum Token {
   tok_output     = -10
 };
 
+void setFileMode(char* content);
+bool isReplMode();
+
 int gettok();
 std::string lastIdentifier();
 unsigned char lastValue();

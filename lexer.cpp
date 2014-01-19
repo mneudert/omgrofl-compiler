@@ -1,8 +1,33 @@
 #include "lexer.hpp"
 
+static char* FileContent;
+static int   FileContentPos = 0;
+static bool  IsReplMode     = true;
+
 static std::string IdentifierStr;
 static unsigned char NumVal;
 static std::map<std::string, Token> IdentifierMap;
+
+bool isReplMode() {
+  return IsReplMode;
+}
+
+void setFileMode(char* content) {
+  FileContent = content;
+  IsReplMode  = false;
+}
+
+int getCodeChar() {
+  if (IsReplMode) {
+    return getchar();
+  } else {
+    if (!FileContent[FileContentPos + 1]) {
+      return -1;
+    }
+
+    return FileContent[FileContentPos++];
+  }
+}
 
 int gettok() {
   static int LastChar = ' ';
@@ -14,7 +39,7 @@ int gettok() {
 
   // skip whitespace
   while (isspace(LastChar) && '\n' != LastChar) {
-    LastChar = getchar();
+    LastChar = getCodeChar();
   }
 
   // ignore possible shebang lines
@@ -23,7 +48,7 @@ int gettok() {
 
     do {
       BangStr += LastChar;
-      LastChar = getchar();
+      LastChar = getCodeChar();
     } while (!isspace(LastChar));
 
     if ((10 > BangStr.size()) ||
@@ -45,7 +70,7 @@ int gettok() {
       isVariable = true;
     }
 
-    while (isalnum((LastChar = getchar())) || '/' == LastChar) {
+    while (isalnum((LastChar = getCodeChar())) || '/' == LastChar) {
       if ('l' != LastChar && 'o' != LastChar && 'O' != LastChar) {
         isVariable = false;
       }
@@ -53,7 +78,9 @@ int gettok() {
       IdentifierStr += LastChar;
     }
 
-    if (isVariable && 'l' == IdentifierStr[IdentifierStr.length() - 1] && 3 >= IdentifierStr.length()) {
+    if (isVariable && (3 <= IdentifierStr.size()) &&
+        (0 == IdentifierStr.compare(0, 1, std::string("l"))) &&
+        (0 == IdentifierStr.compare(IdentifierStr.size() - 1, 1, std::string("l")))) {
       return tok_variable;
     }
 
@@ -70,7 +97,7 @@ int gettok() {
 
     do {
       NumStr  += LastChar;
-      LastChar = getchar();
+      LastChar = getCodeChar();
     } while (isdigit(LastChar));
 
     NumVal = std::atoi(NumStr.c_str());
@@ -89,7 +116,7 @@ int gettok() {
   }
 
   int ThisChar = LastChar;
-  LastChar     = getchar();
+  LastChar     = getCodeChar();
 
   return ThisChar;
 }

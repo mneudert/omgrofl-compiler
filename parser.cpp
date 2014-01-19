@@ -139,7 +139,7 @@ static void HandleTopLevelExpression() {
 /// top ::= definition | external | expression | ';'
 void MainLoop() {
   while (1) {
-    if (tok_eol == CurTok) {
+    if (tok_eol == CurTok && isReplMode()) {
       fprintf(stdout, "\n>> ");
     }
 
