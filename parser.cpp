@@ -62,10 +62,6 @@ static ExprAST *ParseAssignment() {
     VarValue = lastValue();
   }
 
-  if (Variables[VarName]) {
-    log("OldVal '%s': %s\n", VarName.c_str(), &Variables[VarName]);
-  }
-
   Variables[VarName] = VarValue;
 
   return 0;
@@ -74,8 +70,6 @@ static ExprAST *ParseAssignment() {
 /// identifierexpr
 ///   ::= identifier
 static ExprAST *ParseIdentifierExpr() {
-  log("Identifier: %s\n", lastIdentifier().c_str());
-
   return 0;
 }
 
@@ -154,7 +148,6 @@ void MainLoop() {
         break;
 
       case tok_eof:
-        log("OmgEndOfFile!\n");
         return;
 
       case tok_increment:
