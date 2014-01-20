@@ -19,13 +19,13 @@ void setFileMode(char* content) {
 
 int getCodeChar() {
   if (IsReplMode) {
-    return getchar();
+    return tolower(getchar());
   } else {
     if (!FileContent[FileContentPos + 1]) {
       return -1;
     }
 
-    return FileContent[FileContentPos++];
+    return tolower(FileContent[FileContentPos++]);
   }
 }
 
@@ -71,7 +71,7 @@ int gettok() {
     }
 
     while (isalnum((LastChar = getCodeChar())) || '/' == LastChar) {
-      if ('l' != LastChar && 'o' != LastChar && 'O' != LastChar) {
+      if ('l' != LastChar && 'o' != LastChar) {
         isVariable = false;
       }
 

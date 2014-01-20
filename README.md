@@ -46,6 +46,8 @@ are ready to go!
 
 ### Supported statements
 
+Everything is case-insensitive!
+
 Multiple statements per line are allowed.
 Only a comment has to be followed by a linebreak.
 
