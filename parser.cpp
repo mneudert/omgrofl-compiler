@@ -44,7 +44,9 @@ static ExprAST *ParseArithmetic() {
 
 /// assignment
 ///   ::= variable assignment numeric
+///   ::= variable assignment variable
 static ExprAST *ParseAssignment() {
+  std::string VarSource;
   std::string VarName    = lastIdentifier();
   unsigned char VarValue = -1;
 
@@ -56,8 +58,16 @@ static ExprAST *ParseAssignment() {
 
   getNextToken();
 
-  if (0 == strcmp("/dev/null", lastIdentifier().c_str())) {
+  VarSource = lastIdentifier();
+
+  if (0 == strcmp("/dev/null", VarSource.c_str())) {
     VarValue = 0;
+  } else if (tok_variable == CurTok) {
+    if (!Variables[VarSource]) {
+      return Error("Assigment from unknown variable");
+    }
+
+    VarValue = Variables[VarSource];
   } else {
     VarValue = lastValue();
   }

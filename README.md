@@ -51,9 +51,10 @@ Everything is case-insensitive!
 Multiple statements per line are allowed.
 Only a comment has to be followed by a linebreak.
 
-    // assignment to values
+    // assignment
     lool iz 72
     loool to /dev/null
+    lol iz lool
 
     // comments
     w00t laughing at teh codez
@@ -72,9 +73,6 @@ Only a comment has to be followed by a linebreak.
     lol iz 79 rofl lol lol iz 75 rofl lol
 
 ### Unsupported statements
-
-    // assignment to other variables
-    lool iz looool
 
     // conditions
     wtf lool iz liek loool
