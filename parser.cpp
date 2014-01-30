@@ -109,7 +109,7 @@ static ExprAST *ParseOutput() {
     return Error("Unknown variable");
   }
 
-  fprintf(stdout, "%s", &Variables[VarName]);
+  fprintf(stdout, "%c", Variables[VarName]);
 
   return 0;
 }
