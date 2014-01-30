@@ -19,8 +19,6 @@ void parseFile(char *filename) {
     file.seekg(0, ios::beg);
     file.read(omgcode, size);
     file.close();
-
-    delete[] omgcode;
   } else {
     fprintf(stderr, "Failed to open file!");
     return;
