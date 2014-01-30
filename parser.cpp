@@ -114,6 +114,30 @@ static ExprAST *ParseOutput() {
   return 0;
 }
 
+/// sleepexpr
+///   ::= sleep variable
+static ExprAST *ParseSleep() {
+  std::string VarName;
+
+  getNextToken();
+
+  if (tok_variable != CurTok) {
+    return Error("Missing variable name for sleep");
+  }
+
+  VarName = lastIdentifier();
+
+  if (!Variables[VarName]) {
+    return Error("Unknown variable");
+  }
+
+  fflush(stderr);
+  fflush(stdout);
+  usleep((int) Variables[VarName] * 1000);
+
+  return 0;
+}
+
 
 static void HandleArithmetic() {
   if (!ParseArithmetic()) {
@@ -129,6 +153,12 @@ static void HandleAssignment() {
 
 static void HandleOutput() {
   if (!ParseOutput()) {
+    getNextToken();
+  }
+}
+
+static void HandleSleep() {
+  if (!ParseSleep()) {
     getNextToken();
   }
 }
@@ -167,6 +197,10 @@ void MainLoop() {
 
       case tok_output:
         HandleOutput();
+        break;
+
+      case tok_sleep:
+        HandleSleep();
         break;
 
       case tok_variable:

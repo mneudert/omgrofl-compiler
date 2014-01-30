@@ -136,6 +136,7 @@ unsigned char lastValue() {
 }
 
 void initIdentifiers() {
+  IdentifierMap["afk"]     = tok_sleep;
   IdentifierMap["iz"]      = tok_assign;
   IdentifierMap["lmao"]    = tok_increment;
   IdentifierMap["rofl"]    = tok_output;

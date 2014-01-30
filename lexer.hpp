@@ -9,18 +9,19 @@
 #define __LEXER_H
 
 enum Token {
-  tok_eof        = -1,
-  tok_eol        = -2,
+  tok_eof        = -11,
+  tok_eol        = -12,
+  tok_sleep      = -13,
 
-  tok_assign     = -3,
-  tok_comment    = -4,
-  tok_identifier = -5,
-  tok_numeric    = -6,
-  tok_variable   = -7,
+  tok_assign     = -21,
+  tok_comment    = -22,
+  tok_identifier = -23,
+  tok_numeric    = -24,
+  tok_variable   = -25,
 
-  tok_decrement  = -8,
-  tok_increment  = -9,
-  tok_output     = -10
+  tok_decrement  = -31,
+  tok_increment  = -32,
+  tok_output     = -33
 };
 
 void setFileMode(char* content);
