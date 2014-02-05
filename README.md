@@ -66,6 +66,10 @@ Only a comment has to be followed by a linebreak.
     // output
     rofl lol
 
+    // sleeping
+    afk lool
+    afk 250
+
     // program termination
     stfu
 
@@ -95,10 +99,6 @@ Only a comment has to be followed by a linebreak.
     4 lol iz 0 2 10
       ...
     end
-
-    // sleeping
-    afk lool
-    afk 250
 
     // stack/queue
     haxor loool
