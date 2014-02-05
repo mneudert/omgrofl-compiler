@@ -1,10 +1,9 @@
-CPP = clang++
 INSTALL = install
 
 .PHONY: all
 
 all:
-	$(CPP) -o omgrofl -g -O3 *.cpp
+	$(CXX) -o omgrofl -g -O3 *.cpp
 
 clean:
 	rm -f omgrofl
