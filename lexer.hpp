@@ -21,7 +21,11 @@ enum Token {
 
   tok_decrement  = -31,
   tok_increment  = -32,
-  tok_output     = -33
+  tok_output     = -33,
+
+  tok_dequeue    = -41,
+  tok_pop        = -42,
+  tok_push       = -43
 };
 
 void setFileMode(char* content);

@@ -137,8 +137,11 @@ unsigned char lastValue() {
 
 void initIdentifiers() {
   IdentifierMap["afk"]     = tok_sleep;
+  IdentifierMap["haxor"]   = tok_dequeue;
   IdentifierMap["iz"]      = tok_assign;
+  IdentifierMap["l33t"]    = tok_pop;
   IdentifierMap["lmao"]    = tok_increment;
+  IdentifierMap["n00b"]    = tok_push;
   IdentifierMap["rofl"]    = tok_output;
   IdentifierMap["roflmao"] = tok_decrement;
   IdentifierMap["stfu"]    = tok_eof;

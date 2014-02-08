@@ -1,6 +1,7 @@
 #include "parser.hpp"
 
-static std::map<std::string, unsigned char> Variables;
+static std::deque<unsigned char> Deque;
+static std::map<std::string, unsigned char>  Variables;
 
 static int CurTok;
 int getNextToken() {
@@ -31,7 +32,7 @@ static ExprAST *ParseArithmetic() {
   VarName = lastIdentifier();
 
   if (!Variables[VarName]) {
-    return Error("Unknown variable");
+    Variables[VarName] = 0;
   }
 
   switch(ArithOp) {
@@ -64,15 +65,62 @@ static ExprAST *ParseAssignment() {
     VarValue = 0;
   } else if (tok_variable == CurTok) {
     if (!Variables[VarSource]) {
-      return Error("Assigment from unknown variable");
+      VarValue = 0;
+    } else {
+      VarValue = Variables[VarSource];
     }
-
-    VarValue = Variables[VarSource];
   } else {
     VarValue = lastValue();
   }
 
   Variables[VarName] = VarValue;
+
+  return 0;
+}
+
+/// deque
+///   ::= dequeue variable
+///   ::= pop variable
+///   ::= push variable
+static ExprAST *ParseDeque() {
+  int         DequeOp = CurTok;
+  std::string VarName;
+
+  getNextToken();
+
+  if (tok_variable != CurTok) {
+    return Error("Missing variable name for deque");
+  }
+
+  VarName = lastIdentifier();
+
+  switch(DequeOp) {
+    case tok_dequeue:
+      if (Deque.empty()) {
+        Variables[VarName] = 0;
+      } else {
+        Variables[VarName] = Deque.front();
+        Deque.pop_front();
+      }
+      break;
+
+    case tok_pop:
+      if (Deque.empty()) {
+        Variables[VarName] = 0;
+      } else {
+        Variables[VarName] = Deque.back();
+        Deque.pop_back();
+      }
+      break;
+
+    case tok_push:
+      if (!Variables[VarName]) {
+        Deque.push_back(0);
+      } else {
+        Deque.push_back(Variables[VarName]);
+      }
+      break;
+  }
 
   return 0;
 }
@@ -151,6 +199,12 @@ static void HandleAssignment() {
   }
 }
 
+static void HandleDeque() {
+  if (!ParseDeque()) {
+    getNextToken();
+  }
+}
+
 static void HandleOutput() {
   if (!ParseOutput()) {
     getNextToken();
@@ -193,6 +247,12 @@ void MainLoop() {
       case tok_increment:
       case tok_decrement:
         HandleArithmetic();
+        break;
+
+      case tok_dequeue:
+      case tok_pop:
+      case tok_push:
+        HandleDeque();
         break;
 
       case tok_output:

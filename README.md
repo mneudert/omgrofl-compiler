@@ -63,6 +63,11 @@ Only a comment has to be followed by a linebreak.
     lmao lool
     roflmao lool
 
+    // stack/queue (deque commands)
+    haxor loool
+    l33t loool
+    n00b loool
+
     // output
     rofl lol
 
@@ -99,11 +104,6 @@ Only a comment has to be followed by a linebreak.
     4 lol iz 0 2 10
       ...
     end
-
-    // stack/queue
-    haxor loool
-    l33t loool
-    n00b loool
 
 These will however get implemented in the near (or far...) future.
 

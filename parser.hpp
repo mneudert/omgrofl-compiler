@@ -1,4 +1,5 @@
 #include <cstdio>
+#include <deque>
 #include <string>
 #include <unistd.h>
 #include "ast.hpp"
