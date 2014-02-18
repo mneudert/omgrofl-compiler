@@ -1,30 +1,36 @@
-#include <cstdio>
-#include <fstream>
-#include <iostream>
-#include "lexer.h"
-#include "parser.h"
+#include <errno.h>
+#include <string>
 
-using namespace std;
+#include "./lexer.h"
+#include "./parser.h"
+
 
 void parseFile(char *filename) {
-  streampos  size;
-  char      *omgcode;
+  std::string omgcode;
+  FILE        *fp;
+  ssize_t     read;
 
-  ifstream file(filename, ios::in|ios::binary|ios::ate);
+  char    *line = NULL;
+  size_t  len   = 0;
 
-  if (file.is_open()) {
-    size    = file.tellg();
-    omgcode = new char[size];
+  fp = fopen(filename, "r");
 
-    file.seekg(0, ios::beg);
-    file.read(omgcode, size);
-    file.close();
-  } else {
-    fprintf(stderr, "Failed to open file!");
+  if (NULL == fp) {
+    fprintf(stderr, "Failed to open file '%s': %s!\n",
+                    filename, strerror(errno));
     return;
   }
 
+  while (-1 != (read = getline(&line, &len, fp))) {
+    omgcode.append(std::string(line));
+  }
+
+  fclose(fp);
   setFileMode(omgcode);
+
+  if (line) {
+    free(line);
+  }
 }
 
 int main(int argc, char *argv[]) {

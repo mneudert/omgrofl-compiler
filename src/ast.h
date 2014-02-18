@@ -1,6 +1,6 @@
-#ifndef __AST_H
-#define __AST_H
+#ifndef AST_H_
+#define AST_H_
 
 class ExprAST;
 
-#endif
+#endif  // AST_H_

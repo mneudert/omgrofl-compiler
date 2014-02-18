@@ -1,15 +1,16 @@
-#ifndef __PARSER_H
-#define __PARSER_H
+#ifndef PARSER_H_
+#define PARSER_H_
 
+#include <unistd.h>
 #include <cstdio>
 #include <deque>
 #include <string>
-#include <unistd.h>
-#include "ast.h"
-#include "lexer.h"
+
+#include "./ast.h"
+#include "./lexer.h"
 
 
 int getNextToken();
 void MainLoop();
 
-#endif
+#endif  // PARSER_H_

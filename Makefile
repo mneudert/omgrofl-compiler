@@ -24,6 +24,12 @@ clean:
 
 default: $(TARGET)
 
+lint:
+	@cpplint \
+		--root="src" \
+		--filter="-legal/copyright" \
+		src/*.h src/*.cpp
+
 
 .PHONY: clean default
 .DEFAULT_GOAL := default

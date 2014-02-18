@@ -1,5 +1,5 @@
-#ifndef __LEXER_H
-#define __LEXER_H
+#ifndef LEXER_H_
+#define LEXER_H_
 
 #include <cctype>
 #include <cstdio>
@@ -7,6 +7,7 @@
 #include <cstring>
 #include <map>
 #include <string>
+
 
 enum Token {
   tok_eof        = -11,
@@ -28,7 +29,7 @@ enum Token {
   tok_push       = -43
 };
 
-void setFileMode(char* content);
+void setFileMode(std::string content);
 bool isReplMode();
 
 int gettok();
@@ -37,4 +38,4 @@ unsigned char lastValue();
 
 void initIdentifiers();
 
-#endif
+#endif  // LEXER_H_

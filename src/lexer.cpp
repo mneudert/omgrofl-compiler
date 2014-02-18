@@ -1,8 +1,12 @@
-#include "lexer.h"
+#include <map>
+#include <string>
 
-static char* FileContent;
-static int   FileContentPos = 0;
-static bool  IsReplMode     = true;
+#include "./lexer.h"
+
+
+static std::string FileContent;
+static int         FileContentPos = 0;
+static bool        IsReplMode     = true;
 
 static std::string IdentifierStr;
 static unsigned char NumVal;
@@ -12,7 +16,7 @@ bool isReplMode() {
   return IsReplMode;
 }
 
-void setFileMode(char* content) {
+void setFileMode(std::string content) {
   FileContent = content;
   IsReplMode  = false;
 }
@@ -21,11 +25,11 @@ int getCodeChar() {
   if (IsReplMode) {
     return tolower(getchar());
   } else {
-    if (!FileContent[FileContentPos + 1]) {
+    if (FileContentPos + 1 == FileContent.size()) {
       return -1;
     }
 
-    return tolower(FileContent[FileContentPos++]);
+    return tolower(FileContent.at(FileContentPos++));
   }
 }
 
@@ -53,9 +57,9 @@ int gettok() {
 
     if ((10 > BangStr.size()) ||
         (0 != BangStr.compare(0, 3, std::string("#!/"))) ||
-        (0 != BangStr.compare(BangStr.size() - 7, 7, std::string("omgrofl"))))
-    {
+        (0 != BangStr.compare(BangStr.size() - 7, 7, std::string("omgrofl")))) {
       IdentifierStr = BangStr;
+
       return tok_identifier;
     }
 
@@ -80,7 +84,9 @@ int gettok() {
 
     if (isVariable && (3 <= IdentifierStr.size()) &&
         (0 == IdentifierStr.compare(0, 1, std::string("l"))) &&
-        (0 == IdentifierStr.compare(IdentifierStr.size() - 1, 1, std::string("l")))) {
+        (0 == IdentifierStr.compare(IdentifierStr.size() - 1,
+                                    1,
+                                    std::string("l")))) {
       return tok_variable;
     }
 

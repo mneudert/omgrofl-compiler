@@ -1,4 +1,9 @@
-#include "parser.h"
+#include <deque>
+#include <map>
+#include <string>
+
+#include "./parser.h"
+
 
 static std::deque<unsigned char> Deque;
 static std::map<std::string, unsigned char>  Variables;
@@ -35,7 +40,7 @@ static ExprAST *ParseArithmetic() {
     Variables[VarName] = 0;
   }
 
-  switch(ArithOp) {
+  switch (ArithOp) {
     case tok_decrement: Variables[VarName]--; break;
     case tok_increment: Variables[VarName]++; break;
   }
@@ -94,7 +99,7 @@ static ExprAST *ParseDeque() {
 
   VarName = lastIdentifier();
 
-  switch(DequeOp) {
+  switch (DequeOp) {
     case tok_dequeue:
       if (Deque.empty()) {
         Variables[VarName] = 0;
@@ -181,7 +186,7 @@ static ExprAST *ParseSleep() {
 
   fflush(stderr);
   fflush(stdout);
-  usleep((int) Variables[VarName] * 1000);
+  usleep(static_cast<int>(Variables[VarName] * 1000));
 
   return 0;
 }

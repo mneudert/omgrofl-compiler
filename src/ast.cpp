@@ -1,7 +1,7 @@
-#include "ast.h"
+#include "./ast.h"
 
 /// Expression node base class
 class ExprAST {
-public:
+ public:
   virtual ~ExprAST() {}
 };
