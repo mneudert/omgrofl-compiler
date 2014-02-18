@@ -1,8 +1,8 @@
 #include <cstdio>
 #include <fstream>
 #include <iostream>
-#include "lexer.hpp"
-#include "parser.hpp"
+#include "lexer.h"
+#include "parser.h"
 
 using namespace std;
 

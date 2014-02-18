@@ -1,12 +1,12 @@
+#ifndef __LEXER_H
+#define __LEXER_H
+
 #include <cctype>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <map>
 #include <string>
-
-#ifndef __LEXER_H
-#define __LEXER_H
 
 enum Token {
   tok_eof        = -11,

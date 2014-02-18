@@ -1,4 +1,4 @@
-#include "lexer.hpp"
+#include "lexer.h"
 
 static char* FileContent;
 static int   FileContentPos = 0;

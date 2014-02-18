@@ -1,4 +1,4 @@
-#include "ast.hpp"
+#include "ast.h"
 
 /// Expression node base class
 class ExprAST {
