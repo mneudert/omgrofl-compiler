@@ -18,7 +18,7 @@ void parseFile(char *filename) {
   if (NULL == fp) {
     fprintf(stderr, "Failed to open file '%s': %s!\n",
                     filename, strerror(errno));
-    return;
+    exit(1);
   }
 
   while (-1 != (read = getline(&line, &len, fp))) {
